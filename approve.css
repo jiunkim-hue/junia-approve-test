@@ -1,0 +1,11 @@
+body{font:15px/1.5 system-ui,sans-serif;margin:0;background:#f5f6f8;color:#111}main{max-width:760px;margin:24px auto;padding:0 16px}
+h1{font-size:20px}table{border-collapse:collapse;width:100%;background:#fff}td{border:1px solid #ddd;padding:6px 8px;vertical-align:top;word-break:break-all}
+td.k{width:30%;color:#444}.fp{font:600 18px ui-monospace,monospace;letter-spacing:1px;background:#fff;padding:8px;border:2px solid #1d4ed8;display:inline-block}
+.unv{background:#fff7e6;border:1px dashed #d97706;padding:8px;white-space:pre-wrap;word-break:break-all}button{font:inherit;padding:10px 18px;border-radius:8px;
+border:0;background:#1d4ed8;color:#fff;cursor:pointer}button.secondary{background:#6b7280}.note{color:#444}#result{margin-top:12px;font-weight:600}.bad{color:#b91c1c}.ok{color:#047857}a{color:#1d4ed8}
+input{font:inherit;padding:6px}.risk{background:#fef2f2;border:2px solid #b91c1c;color:#7f1d1d;padding:10px 12px;margin:12px 0;font-weight:600}
+.blocked{background:#fff1f2;border:1px solid #b91c1c;padding:10px;margin:12px 0}table.act td{font-size:16px}
+.tenant{color:#444;font-size:13px}textarea{width:100%;font:12px ui-monospace,monospace}code{font:12px ui-monospace,monospace}[hidden]{display:none!important}
+.step{background:#fff;border:2px solid #1d4ed8;border-radius:10px;padding:12px 14px;margin:14px 0}.big{font-size:18px}
+a.button{display:inline-block;padding:12px 18px;border-radius:8px;background:#1d4ed8;color:#fff;text-decoration:none;font-weight:600}
+.diag{margin-top:24px;color:#666;font-size:12px}.diag code{white-space:pre-wrap;word-break:break-all}

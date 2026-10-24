@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<title>JUNIA SENTIA 승인</title>
+<link rel="stylesheet" href="approve.css">
+</head>
+<body>
+<main>
+  <h1>JUNIA SENTIA 승인 / Approval</h1>
+  <p class="note">이 페이지를 연 것만으로는 아무것도 승인되지 않습니다. / Opening this page approves nothing.</p>
+
+  <section id="state-safari" hidden class="step">
+    <h2>Safari로 열어 주세요 / Open in Safari</h2>
+    <p><b>지금 화면은 텔레그램 안의 브라우저입니다. Face ID 승인은 Safari에서만 됩니다.</b><br>
+       This is Telegram's in-app browser. Face ID approval works in Safari only.</p>
+    <p class="big">오른쪽 아래 <b>나침반(Safari) 아이콘</b>을 누르세요.<br>Tap the <b>compass (Safari)</b> icon at the bottom right.</p>
+    <p><a id="safari-link" class="button" href="#">Safari로 열기 / Open in Safari</a>
+       <button id="copy-link" class="secondary" type="button">주소 복사 / Copy link</button></p>
+    <p class="note">버튼이 안 되면 나침반 아이콘을 쓰세요. 주소를 복사했다면 Safari 주소창에 붙여넣으세요. 화면은 2분 동안만 유효합니다.<br>
+       If the button does nothing, use the compass icon (or paste the copied link in Safari). The screen is valid for 2 minutes.</p>
+    <p><a id="try-here" href="#">그래도 여기서 시도 / Try here anyway</a></p>
+  </section>
+
+  <div id="state-empty" hidden><p>승인 요청이 없습니다. 텔레그램의 승인 버튼으로 여세요. / Open this page from the approval button in Telegram.</p></div>
+  <div id="state-bad" hidden class="blocked"><b>내용이 변조되었거나 손상되었습니다. 승인할 수 없습니다. / Tampered or damaged - cannot be approved.</b> <code id="bad-code"></code></div>
+  <section id="content" hidden>
+    <p class="tenant" id="tenant"></p>
+    <h2 id="title"></h2>
+    <div id="risk" class="risk" hidden>⚠ 이 휴대폰 화면에서 내용을 직접 확인한 뒤에만 승인하세요. 송금·계약 등 고위험(T2)은 여기서 승인되지 않습니다. / Approve only after checking it on this phone. T2 actions stay blocked.</div>
+    <p id="content-lead">승인할 내용 (PC의 승인 서비스가 서명 챌린지에 묶은 내용) / What you approve (bound to the passkey challenge by your PC's Approval Authority):</p>
+    <table class="act" id="facts"></table>
+    <p>지문 / Fingerprint:</p><div class="fp" id="fp"></div>
+  </section>
+  <div id="state-pending" hidden>
+    <p><button id="approve" type="button">Face ID로 승인 / Approve with Face ID</button>
+       <button id="reject" class="secondary" type="button">거절 / Reject</button></p>
+  </div>
+  <div id="state-enroll" hidden>
+    <p><button id="enroll" type="button">이 iPhone에 패스키 만들기 (Face ID) / Create the passkey</button></p>
+  </div>
+  <div id="state-expired" hidden class="blocked">이 화면은 만료되었습니다(2분). 텔레그램에서 <b>🔐 새 승인 화면</b> 버튼을 누르세요. / This screen expired - tap <b>🔐 New approval screen</b> in Telegram.
+    <p><a id="back-to-bot" class="button" href="#">텔레그램으로 / Back to Telegram</a></p></div>
+  <div id="result"></div>
+  <section id="fallback" hidden class="step">
+    <h2>마지막 단계: 텔레그램에서 '보내기' / Last step: Send in Telegram</h2>
+    <p><a id="tg-draft" class="button" href="https://t.me/">텔레그램으로 보내기 / Send via Telegram</a></p>
+    <p class="note">텔레그램 입력창에 문구가 채워지면 <b>보내기</b>만 누르세요. 비어 있으면 입력창을 길게 눌러 <b>붙여넣기</b> 후 보내기(이미 복사됨). 이 문구는 이 요청 한 번에만 쓰이며 다른 곳에서는 쓸모가 없습니다.<br>
+       If the text is pre-filled just tap Send; otherwise long-press, Paste (already copied), Send. It works once, for this request only.</p>
+    <textarea id="paste" readonly rows="4"></textarea>
+    <p><button id="copy" class="secondary" type="button">다시 복사 / Copy again</button></p>
+  </section>
+  <details class="diag"><summary>진단 / Diagnostics</summary><code id="diag"></code></details>
+</main>
+<script type="module" src="approve.js"></script>
+</body>
+</html>
