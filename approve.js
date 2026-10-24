@@ -27,6 +27,33 @@ function tgPost(eventType, eventData) {
 const ctx = C.browserContext({ ua: navigator.userAgent, hash: location.hash, hasTgProxy: !!window.TelegramWebviewProxy });
 let env = null;
 let mode = "";
+const usedKey = () => env ? mode === "enroll" ? "junia-used:n:" + env.sid : "junia-used:a:" + env.cer : "";
+function isUsed() {
+  try {
+    return !!usedKey() && localStorage.getItem(usedKey()) === "1";
+  } catch (e) {
+    return false;
+  }
+}
+function markUsed() {
+  try {
+    if (usedKey()) localStorage.setItem(usedKey(), "1");
+  } catch (e) {
+  }
+}
+function showUsed() {
+  for (const id of ["state-pending", "state-enroll", "state-safari", "fallback", "state-expired"]) show(id, false);
+  const l = C.returnLinks(env && env.bot, "");
+  if (l.tme) $("used-to-bot").href = l.tme;
+  show("state-used");
+}
+function sent() {
+  markUsed();
+  show("fallback", false);
+  $("tg-draft").removeAttribute("href");
+  $("result").textContent = "";
+  show("sent");
+}
 function row(k, v) {
   const tr = document.createElement("tr");
   const a = document.createElement("td");
@@ -52,11 +79,17 @@ function safariStep() {
   }, { once: true });
 }
 async function deliverText(text, returnJson) {
-  if (ctx.kind === "telegram_miniapp" && tgPost("web_app_data_send", { data: returnJson })) return "telegram";
+  if (ctx.kind === "telegram_miniapp" && tgPost("web_app_data_send", { data: returnJson })) {
+    markUsed();
+    return "telegram";
+  }
   if (env.mb) {
     try {
       const r = await fetch(env.mb, { method: "POST", mode: "cors", credentials: "omit", headers: { "content-type": "text/plain" }, body: returnJson });
-      if (r.ok) return "mailbox";
+      if (r.ok) {
+        markUsed();
+        return "mailbox";
+      }
     } catch (e) {
     }
   }
@@ -117,6 +150,10 @@ async function mainApprove(p) {
     show("state-expired");
     return;
   }
+  if (isUsed()) {
+    showUsed();
+    return;
+  }
   if (ctx.kind === "inapp") {
     safariStep();
     return;
@@ -144,6 +181,10 @@ async function mainEnroll(p) {
   $("fp").textContent = env.sid.match(/.{4}/g).join(" ");
   if (env.t) $("tenant").textContent = env.t;
   show("content");
+  if (isUsed()) {
+    showUsed();
+    return;
+  }
   if (ctx.kind === "inapp") {
     safariStep();
     return;
@@ -209,7 +250,14 @@ $("copy-link").addEventListener("click", async () => {
     say(location.href, true);
   }
 });
+$("tg-draft").addEventListener("click", () => {
+  if ($("tg-draft").getAttribute("href")) setTimeout(sent, 0);
+});
+window.addEventListener("pageshow", () => {
+  if (env && isUsed() && $("state-used").hidden && $("sent").hidden) showUsed();
+});
 $("copy").addEventListener("click", async () => {
+  markUsed();
   try {
     await navigator.clipboard.writeText($("paste").value);
     say("복사됨 / Copied", true);
